@@ -28,3 +28,10 @@ The main trade-off is that quaternions are plain tuples, not a class. This keeps
 - `rotation()` raises `ValueError` for quaternions whose norm differs from 1.0 by more than 1e-12. This tolerance absorbs floating-point rounding when constructing unit quaternions from trigonometric values.
 - Both `(1,0,0,0)` and `(-1,0,0,0)` represent the identity rotation; `rotation()` returns angle `0.0` and axis `(1.0, 0.0, 0.0)` for both.
 - Inputs are coerced to floats; integer components are accepted and the results are always floats.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
